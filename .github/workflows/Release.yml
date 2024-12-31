@@ -1,0 +1,24 @@
+name: Auto Pull on Release Update
+
+on:
+  push:
+    branches:
+      - Release
+
+jobs:
+  pull:
+    runs-on: windows-latest  
+
+    steps:
+    - name: Checkout code
+      uses: actions/checkout@v3  
+
+    - name: Set up Git
+      run: |
+        git config --global user.name "github-actions"
+        git config --global user.email "github-actions@github.com"  
+
+    - name: Pull latest changes
+      run: |
+        git checkout Release 
+        git pull origin Release 
