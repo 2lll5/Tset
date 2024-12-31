@@ -3,22 +3,16 @@ name: Auto Pull on Release Update
 on:
   push:
     branches:
-      - Release
+      - Release  
 
 jobs:
   pull:
-    runs-on: windows-latest  
-
+    runs-on: self-hosted  
     steps:
     - name: Checkout code
       uses: actions/checkout@v3  
 
-    - name: Set up Git
-      run: |
-        git config --global user.name "github-actions"
-        git config --global user.email "github-actions@github.com"  
-
     - name: Pull latest changes
       run: |
-        git checkout Release 
         git pull origin Release 
+      working-directory: C:\Git\Test\Github自動發布測試
