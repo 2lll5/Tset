@@ -1,0 +1,18 @@
+name: Auto Pull on Release Update
+
+on:
+  push:
+    branches:
+      - Release  
+
+jobs:
+  pull:
+    runs-on: self-hosted  
+    steps:
+    - name: Checkout code
+      uses: actions/checkout@v3  
+
+    - name: Pull latest changes
+      run: |
+        git pull origin Release 
+      working-directory: C:\Git\Test\Github自動發布測試
