@@ -7,7 +7,6 @@ on:
 
 permissions:
   contents: write
-  pages: write
 
 jobs:
   transfer:
@@ -16,28 +15,18 @@ jobs:
       - uses: actions/checkout@v4
         with:
           ref: projector-drive-transfer
-      - name: Download packaged builds
+      - name: Download Google TV package
         env:
-          WINDOWS_URL: https://release-assets.githubusercontent.com/github-production-release-asset/1366807640/e546beea-550a-4379-93ac-9cd0f5b05553?sp=r&sv=2018-11-09&sr=b&spr=https&se=2026-09-30T04%3A04%3A22Z&rscd=attachment%3B+filename%3DProjectorApplications-Windows-x64.zip&rsct=application%2Foctet-stream&skoid=96c2d410-5711-43a1-aedd-ab1947aa7ab0&sktid=398a6654-997b-47e9-b12b-9515b896b4de&skt=2026-09-30T03%3A03%3A58Z&ske=2026-09-30T04%3A04%3A22Z&sks=b&skv=2018-11-09&sig=oM9C0aBV4KhqbyhUJlBI6%2FZTrkxGKKbCOq%2BvyMOSyJ0%3D&jwt=eyJ0eXAiOiJKV1QiLCJhbGciOiJIUzI1NiJ9.eyJpc3MiOiJnaXRodWIuY29tIiwiYXVkIjoicmVsZWFzZS1hc3NldHMuZ2l0aHVidXNlcmNvbnRlbnQuY29tIiwia2V5Ijoia2V5MSIsImV4cCI6MTc5MDczOTUyMSwibmJmIjoxNzkwNzM3NzIxLCJwYXRoIjoicmVsZWFzZWFzc2V0cHJvZHVjdGlvbi5ibG9iLmNvcmUud2luZG93cy5uZXQifQ.pTZphs9OEt_YXQMxSh9EykCheGhaHcUnJ_0AgGiQmn8&response-content-disposition=attachment%3B%20filename%3DProjectorApplications-Windows-x64.zip&response-content-type=application%2Foctet-stream
+          GOOGLETV_URL: https://release-assets.githubusercontent.com/github-production-release-asset/1366807640/107bcfb2-7409-4b06-a2db-765eb14da21b?sp=r&sv=2018-11-09&sr=b&spr=https&se=2026-09-30T04%3A14%3A16Z&rscd=attachment%3B+filename%3DProjectorApplications-GoogleTV.zip&rsct=application%2Foctet-stream&skoid=96c2d410-5711-43a1-aedd-ab1947aa7ab0&sktid=398a6654-997b-47e9-b12b-9515b896b4de&skt=2026-09-30T03%3A14%3A12Z&ske=2026-09-30T04%3A14%3A16Z&sks=b&skv=2018-11-09&sig=K4K2uR3UGUe44UTcWlUGwc7m3DaCmTJ5tAHqN02fsrE%3D&jwt=eyJ0eXAiOiJKV1QiLCJhbGciOiJIUzI1NiJ9.eyJpc3MiOiJnaXRodWIuY29tIiwiYXVkIjoicmVsZWFzZS1hc3NldHMuZ2l0aHVidXNlcmNvbnRlbnQuY29tIiwia2V5Ijoia2V5MSIsImV4cCI6MTc5MDczOTMxMCwibmJmIjoxNzkwNzM5MDEwLCJwYXRoIjoicmVsZWFzZWFzc2V0cHJvZHVjdGlvbi5ibG9iLmNvcmUud2luZG93cy5uZXQifQ.ZjK9o4oUmq49EM5hkws51Y_Z_7VMs793B3mK947qkZ0&response-content-disposition=attachment%3B%20filename%3DProjectorApplications-GoogleTV.zip&response-content-type=application%2Foctet-stream
         run: |
-          curl -fL "$WINDOWS_URL" -o ProjectorApplications-Windows-x64.zip
-          test -s ProjectorApplications-Windows-x64.zip
-      - name: Commit temporary transfer files
+          curl -fL "$GOOGLETV_URL" -o ProjectorApplications-GoogleTV.zip
+          test -s ProjectorApplications-GoogleTV.zip
+      - name: Commit temporary Google TV package
         run: |
           git config user.name "github-actions[bot]"
           git config user.email "41898282+github-actions[bot]@users.noreply.github.com"
-          git add ProjectorApplications-Windows-x64.zip
+          git add ProjectorApplications-GoogleTV.zip
           if ! git diff --cached --quiet; then
-            git commit -m "Temporary ProjectorApplications Windows Drive transfer"
+            git commit -m "Temporary ProjectorApplications Google TV Drive transfer"
             git push origin projector-drive-transfer
           fi
-      - name: Enable temporary branch Pages
-        env:
-          GH_TOKEN: ${{ github.token }}
-        run: |
-          gh api -X POST "repos/${{ github.repository }}/pages" \
-            -f "source[branch]=projector-drive-transfer" \
-            -f "source[path]=/" || \
-          gh api -X PUT "repos/${{ github.repository }}/pages" \
-            -f "source[branch]=projector-drive-transfer" \
-            -f "source[path]=/"
