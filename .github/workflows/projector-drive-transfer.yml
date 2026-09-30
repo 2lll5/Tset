@@ -7,6 +7,7 @@ on:
 
 permissions:
   contents: write
+  pages: write
 
 jobs:
   transfer:
@@ -28,3 +29,13 @@ jobs:
           git add ProjectorApplications-Windows-x64.zip
           git commit -m "Temporary ProjectorApplications Windows Drive transfer"
           git push origin projector-drive-transfer
+      - name: Enable temporary branch Pages
+        env:
+          GH_TOKEN: ${{ github.token }}
+        run: |
+          gh api -X POST "repos/${{ github.repository }}/pages" \
+            -f "source[branch]=projector-drive-transfer" \
+            -f "source[path]=/" || \
+          gh api -X PUT "repos/${{ github.repository }}/pages" \
+            -f "source[branch]=projector-drive-transfer" \
+            -f "source[path]=/"
