@@ -18,16 +18,13 @@ jobs:
       - name: Download packaged builds
         env:
           WINDOWS_URL: https://release-assets.githubusercontent.com/github-production-release-asset/1366807640/e546beea-550a-4379-93ac-9cd0f5b05553?sp=r&sv=2018-11-09&sr=b&spr=https&se=2026-09-30T04%3A04%3A22Z&rscd=attachment%3B+filename%3DProjectorApplications-Windows-x64.zip&rsct=application%2Foctet-stream&skoid=96c2d410-5711-43a1-aedd-ab1947aa7ab0&sktid=398a6654-997b-47e9-b12b-9515b896b4de&skt=2026-09-30T03%3A03%3A58Z&ske=2026-09-30T04%3A04%3A22Z&sks=b&skv=2018-11-09&sig=oM9C0aBV4KhqbyhUJlBI6%2FZTrkxGKKbCOq%2BvyMOSyJ0%3D&jwt=eyJ0eXAiOiJKV1QiLCJhbGciOiJIUzI1NiJ9.eyJpc3MiOiJnaXRodWIuY29tIiwiYXVkIjoicmVsZWFzZS1hc3NldHMuZ2l0aHVidXNlcmNvbnRlbnQuY29tIiwia2V5Ijoia2V5MSIsImV4cCI6MTc5MDczOTUyMSwibmJmIjoxNzkwNzM3NzIxLCJwYXRoIjoicmVsZWFzZWFzc2V0cHJvZHVjdGlvbi5ibG9iLmNvcmUud2luZG93cy5uZXQifQ.pTZphs9OEt_YXQMxSh9EykCheGhaHcUnJ_0AgGiQmn8&response-content-disposition=attachment%3B%20filename%3DProjectorApplications-Windows-x64.zip&response-content-type=application%2Foctet-stream
-          GOOGLETV_URL: https://release-assets.githubusercontent.com/github-production-release-asset/1366807640/2d4b7ebc-5662-457f-a566-f24b106a121c?sp=r&sv=2018-11-09&sr=b&spr=https&se=2026-09-30T03%3A50%3A59Z&rscd=attachment%3B+filename%3DProjectorApplications-GoogleTV.zip&rsct=application%2Foctet-stream&skoid=96c2d410-5711-43a1-aedd-ab1947aa7ab0&sktid=398a6654-997b-47e9-b12b-9515b896b4de&skt=2026-09-30T02%3A50%3A03Z&ske=2026-09-30T03%3A50%3A59Z&sks=b&skv=2018-11-09&sig=GuCHP2djU%2F1gXAG7rCzpvKVSWaPhgOaEr6tSyIIpGVE%3D&jwt=eyJ0eXAiOiJKV1QiLCJhbGciOiJIUzI1NiJ9.eyJpc3MiOiJnaXRodWIuY29tIiwiYXVkIjoicmVsZWFzZS1hc3NldHMuZ2l0aHVidXNlcmNvbnRlbnQuY29tIiwia2V5Ijoia2V5MSIsImV4cCI6MTc5MDczODAwOSwibmJmIjoxNzkwNzM3NzA5LCJwYXRoIjoicmVsZWFzZWFzc2V0cHJvZHVjdGlvbi5ibG9iLmNvcmUud2luZG93cy5uZXQifQ.qUmMyaOVtcIkys6ugmb2t5-tX4gfgUyJpl8HEMxULCA&response-content-disposition=attachment%3B%20filename%3DProjectorApplications-GoogleTV.zip&response-content-type=application%2Foctet-stream
         run: |
           curl -fL "$WINDOWS_URL" -o ProjectorApplications-Windows-x64.zip
-          curl -fL "$GOOGLETV_URL" -o ProjectorApplications-GoogleTV.zip
           test -s ProjectorApplications-Windows-x64.zip
-          test -s ProjectorApplications-GoogleTV.zip
       - name: Commit temporary transfer files
         run: |
           git config user.name "github-actions[bot]"
           git config user.email "41898282+github-actions[bot]@users.noreply.github.com"
-          git add ProjectorApplications-Windows-x64.zip ProjectorApplications-GoogleTV.zip
-          git commit -m "Temporary ProjectorApplications Drive transfer"
+          git add ProjectorApplications-Windows-x64.zip
+          git commit -m "Temporary ProjectorApplications Windows Drive transfer"
           git push origin projector-drive-transfer
